@@ -177,6 +177,7 @@ private:
     bool RW;
     u8 data;
     bool phase;
+    int direction;
     u8 display[80];
     int cursor;
 };
@@ -204,16 +205,34 @@ void Lcd::setPin(int _pin, bool state)
             if (phase) {
                 if (RS) {
                     display[cursor] = data;
-                    cursor = (cursor + 1) % sizeof(display);
+                    cursor = (cursor + (1 * direction)) % sizeof(display);
                 } else {
-                    switch (data) {
-                    case 0x01:
+                    if ((data & 0x01) == 0x01) {
                         memset(display, ' ', sizeof(display));
                         cursor = 0;
-                        break;
-                    case 0x02:
+                    }
+                    if ((data & 0x02) == 0x02) {
                         cursor = 0;
-                        break;
+                    }
+                    if ((data & 0x04) == 0x04) {
+                        if ((data & 0x00) == 0x00) {
+                            direction = -1 ;
+                        }
+                        if ((data & 0x02) == 0x02) {
+                            direction = 1 ;
+                        }
+                    }
+                    if ((data & 0x08) == 0x08) {
+                        if ((data & 0x04) == 0x04) { // right
+                            for(int i=sizeof(display) ; i > 1 ; i--) {
+                                display[i] = display[i-1];
+                            }
+                        } else
+                        if ((data & 0x00) == 0x00) { // left
+                            for(int i=0 ; i < sizeof(display)-1 ; i++) {
+                                display[i] = display[i+1];
+                            }
+                        }
                     }
                 }
                 update();
