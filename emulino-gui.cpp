@@ -26,6 +26,7 @@
 #include <qpainter.h>
 #include <qpushbutton.h>
 #include <qtimer.h>
+#include <stdio.h>
 
 #include "cpu.h"
 #include "loader.h"
