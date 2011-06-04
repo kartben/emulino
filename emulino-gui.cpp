@@ -329,8 +329,8 @@ int main(int argc, char *argv[])
     lcd.setGeometry(20, 350, 20*20, 25);
     PinMapper mapper(&lcd);
     mapper.connect(Pins[PIN_PORTB+4], 0);
-    mapper.connect(Pins[PIN_PORTB+3], 1);
-    mapper.connect(Pins[PIN_PORTB+2], 2);
+    mapper.connect(Pins[0], 1);
+    mapper.connect(Pins[PIN_PORTB+3], 2);
     mapper.connect(Pins[PIN_PORTD+5], 3);
     mapper.connect(Pins[PIN_PORTD+4], 4);
     mapper.connect(Pins[PIN_PORTD+3], 5);
